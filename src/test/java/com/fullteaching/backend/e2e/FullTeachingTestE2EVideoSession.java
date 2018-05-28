@@ -304,6 +304,7 @@ public class FullTeachingTestE2EVideoSession extends FullTeachingTestE2E {
 	
 	private boolean checkVideoPlaying(BrowserUser user, WebElement videoElement, String containerQuerySelector) {
 		
+		log.info("AAA checkVideoPlaying");
 		log.info("{} waiting for video in container '{}' to be playing", user.getClientData(), containerQuerySelector);
 
 		// Video element should be in 'readyState'='HAVE_ENOUGH_DATA'
@@ -314,6 +315,7 @@ public class FullTeachingTestE2EVideoSession extends FullTeachingTestE2E {
 		Assert.assertTrue((boolean) user.runJavascript("return document.querySelector('" + containerQuerySelector
 				+ "').getElementsByTagName('video')[0].srcObject.active"));
 
+		log.info("BBB checkVideoPlaying");
 		// Video should trigger 'playing' event
 		user.runJavascript("document.querySelector('" + containerQuerySelector
 				+ "').getElementsByTagName('video')[0].addEventListener('playing', window.MY_FUNC('"
@@ -324,6 +326,7 @@ public class FullTeachingTestE2EVideoSession extends FullTeachingTestE2E {
 
 		user.runJavascript("document.body.removeChild(document.getElementById('video-playing-div'))");
 
+		log.info("CCC checkVideoPlaying");
 		return true;
 	}
 
