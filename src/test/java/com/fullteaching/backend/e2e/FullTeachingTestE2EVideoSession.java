@@ -185,10 +185,60 @@ public class FullTeachingTestE2EVideoSession extends FullTeachingTestE2E {
 		checkVideoPlaying(student, student.getDriver().findElement(By.cssSelector(("div.participant video"))),
 				"div.participant");
 
-		log.info("BOTH");
-		waitSeconds(60);
-		log.info("END");
+		// Student asks for intervention		
+		student.getWaiter().until(ExpectedConditions
+				.elementToBeClickable(By.xpath("//div[@id='div-header-buttons']//i[text() = 'record_voice_over']")));
 		
+		log.info("{} asking for intervention", student.getClientData());
+		
+		student.getDriver().findElement(By.xpath("//div[@id='div-header-buttons']//i[text() = 'record_voice_over']"))
+				.click();
+
+		waitSeconds(1);
+
+		// Teacher accepts intervention
+		user.getWaiter().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class, 'usr-btn')]")));
+		
+		log.info("{} accepts student intervention", user.getClientData());
+		
+		user.getDriver().findElement(By.xpath("//a[contains(@class, 'usr-btn')]")).click();
+
+		// Check both videos for both users
+		student.getWaiter()
+				.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(("div.participant-small video"))));
+		// Small video of student
+		checkVideoPlaying(student, student.getDriver().findElement(By.cssSelector(("div.participant-small video"))),
+				"div.participant-small");
+		// Main video of student
+		checkVideoPlaying(student, student.getDriver().findElement(By.cssSelector(("div.participant video"))),
+				"div.participant");
+
+		user.getWaiter()
+				.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(("div.participant-small video"))));
+		// Small video of teacher
+		checkVideoPlaying(user, user.getDriver().findElement(By.cssSelector(("div.participant-small video"))),
+				"div.participant-small");
+		// Main video of teacher
+		checkVideoPlaying(user, user.getDriver().findElement(By.cssSelector(("div.participant video"))),
+				"div.participant");
+
+		waitSeconds(5);
+
+		// Teacher stops student intervention
+		user.getWaiter().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class, 'usr-btn')]")));
+		
+		log.info("{} canceling student intervention", user.getClientData());
+		
+		user.getDriver().findElement(By.xpath("//a[contains(@class, 'usr-btn')]")).click();
+
+		// Wait until only one video
+		user.getWaiter().until(ExpectedConditions.not(
+				ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(("div.participant-small video")))));
+		student.getWaiter().until(ExpectedConditions.not(
+				ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(("div.participant-small video")))));
+
+		waitSeconds(4);
+
 		// Logout student
 		this.logout(student);
 		student.dispose();
