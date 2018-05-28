@@ -324,6 +324,7 @@ public class FullTeachingTestE2EVideoSession extends FullTeachingTestE2E {
 		user.getWaiter()
 				.until(ExpectedConditions.attributeContains(By.id("video-playing-div"), "innerHTML", "VIDEO PLAYING"));
 
+		waitSeconds(20);
 		user.runJavascript("document.body.removeChild(document.getElementById('video-playing-div'))");
 
 		log.info("CCC checkVideoPlaying");
