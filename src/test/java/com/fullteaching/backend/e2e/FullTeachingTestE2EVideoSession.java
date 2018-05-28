@@ -316,17 +316,14 @@ public class FullTeachingTestE2EVideoSession extends FullTeachingTestE2E {
 				+ "').getElementsByTagName('video')[0].srcObject.active"));
 
 		log.info("BBB checkVideoPlaying");
-		waitSeconds(10);
 		// Video should trigger 'playing' event
 		user.runJavascript("document.querySelector('" + containerQuerySelector
 				+ "').getElementsByTagName('video')[0].addEventListener('playing', window.MY_FUNC('"
 				+ containerQuerySelector + "'));");
 
-		waitSeconds(10);
 		user.getWaiter()
 				.until(ExpectedConditions.attributeContains(By.id("video-playing-div"), "innerHTML", "VIDEO PLAYING"));
 
-		waitSeconds(10);
 		user.runJavascript("document.body.removeChild(document.getElementById('video-playing-div'))");
 
 		log.info("CCC checkVideoPlaying");
